@@ -1,1 +1,1 @@
-# Mastering_Embedded_Systems
+# Embedded Systems Online Diploma
