@@ -1,0 +1,12 @@
+20000400 B _E_bss
+20000000 T _E_data
+00000198 T _E_text
+20000000 B _S_bss
+20000000 T _S_data
+0000018c T Default_Handler
+00000000 T g_p_fn_vectors
+0000018c W H_fault_Handler
+00000010 T main
+0000018c W NMI_Handler
+000000dc T Reset_Handler
+20000000 b stack_top
