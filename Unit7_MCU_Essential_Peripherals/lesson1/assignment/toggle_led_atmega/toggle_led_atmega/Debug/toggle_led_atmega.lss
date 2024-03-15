@@ -1,0 +1,169 @@
+
+toggle_led_atmega.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000e8  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  0000013c  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  0000013c  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000016c  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000030  00000000  00000000  000001a8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000006ca  00000000  00000000  000001d8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000005ba  00000000  00000000  000008a2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000301  00000000  00000000  00000e5c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000044  00000000  00000000  00001160  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    0000036c  00000000  00000000  000011a4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000124  00000000  00000000  00001510  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000020  00000000  00000000  00001634  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 3c 00 	call	0x78	; 0x78 <main>
+  64:	0c 94 72 00 	jmp	0xe4	; 0xe4 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <gpio_init>:
+void custom_delay(int timer)
+{
+	int i,j;
+	for(i = 0; i < timer; i++)
+		for(j = 0; j < 5000; j++);
+}
+  6c:	81 b3       	in	r24, 0x11	; 17
+  6e:	80 6f       	ori	r24, 0xF0	; 240
+  70:	81 bb       	out	0x11, r24	; 17
+  72:	8f ee       	ldi	r24, 0xEF	; 239
+  74:	82 bb       	out	0x12, r24	; 18
+  76:	08 95       	ret
+
+00000078 <main>:
+int main(void)
+{
+    gpio_init();
+  78:	0e 94 36 00 	call	0x6c	; 0x6c <gpio_init>
+    while (1) 
+    {
+		PORTD &= ~(1<<5); // turn on first led
+  7c:	82 b3       	in	r24, 0x12	; 18
+  7e:	8f 7d       	andi	r24, 0xDF	; 223
+  80:	82 bb       	out	0x12, r24	; 18
+		custom_delay(10000);
+		//_delay_ms(1000);
+		PORTD |= (1<<5);// turn off first led
+  82:	82 b3       	in	r24, 0x12	; 18
+  84:	80 62       	ori	r24, 0x20	; 32
+  86:	82 bb       	out	0x12, r24	; 18
+		PORTD &= ~(1<<6); // turn on second led
+  88:	82 b3       	in	r24, 0x12	; 18
+  8a:	8f 7b       	andi	r24, 0xBF	; 191
+  8c:	82 bb       	out	0x12, r24	; 18
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  8e:	2f ef       	ldi	r18, 0xFF	; 255
+  90:	89 e6       	ldi	r24, 0x69	; 105
+  92:	98 e1       	ldi	r25, 0x18	; 24
+  94:	21 50       	subi	r18, 0x01	; 1
+  96:	80 40       	sbci	r24, 0x00	; 0
+  98:	90 40       	sbci	r25, 0x00	; 0
+  9a:	e1 f7       	brne	.-8      	; 0x94 <main+0x1c>
+  9c:	00 c0       	rjmp	.+0      	; 0x9e <main+0x26>
+  9e:	00 00       	nop
+		//custom_delay();
+		_delay_ms(1000);
+		PORTD |= (1<<6);// turn off second led
+  a0:	82 b3       	in	r24, 0x12	; 18
+  a2:	80 64       	ori	r24, 0x40	; 64
+  a4:	82 bb       	out	0x12, r24	; 18
+		PORTD &= ~(1<<7); // turn on third led
+  a6:	82 b3       	in	r24, 0x12	; 18
+  a8:	8f 77       	andi	r24, 0x7F	; 127
+  aa:	82 bb       	out	0x12, r24	; 18
+  ac:	2f ef       	ldi	r18, 0xFF	; 255
+  ae:	89 e6       	ldi	r24, 0x69	; 105
+  b0:	98 e1       	ldi	r25, 0x18	; 24
+  b2:	21 50       	subi	r18, 0x01	; 1
+  b4:	80 40       	sbci	r24, 0x00	; 0
+  b6:	90 40       	sbci	r25, 0x00	; 0
+  b8:	e1 f7       	brne	.-8      	; 0xb2 <main+0x3a>
+  ba:	00 c0       	rjmp	.+0      	; 0xbc <main+0x44>
+  bc:	00 00       	nop
+		//custom_delay();
+		_delay_ms(1000);
+		PORTD |= (1<<7);// turn off third led
+  be:	82 b3       	in	r24, 0x12	; 18
+  c0:	80 68       	ori	r24, 0x80	; 128
+  c2:	82 bb       	out	0x12, r24	; 18
+		PORTD |= (1<<4); // turn on buzzer
+  c4:	82 b3       	in	r24, 0x12	; 18
+  c6:	80 61       	ori	r24, 0x10	; 16
+  c8:	82 bb       	out	0x12, r24	; 18
+  ca:	2f ef       	ldi	r18, 0xFF	; 255
+  cc:	89 e6       	ldi	r24, 0x69	; 105
+  ce:	98 e1       	ldi	r25, 0x18	; 24
+  d0:	21 50       	subi	r18, 0x01	; 1
+  d2:	80 40       	sbci	r24, 0x00	; 0
+  d4:	90 40       	sbci	r25, 0x00	; 0
+  d6:	e1 f7       	brne	.-8      	; 0xd0 <main+0x58>
+  d8:	00 c0       	rjmp	.+0      	; 0xda <main+0x62>
+  da:	00 00       	nop
+		//custom_delay();
+		_delay_ms(1000);
+		PORTD &= ~(1<<4);// turn off buzzer
+  dc:	82 b3       	in	r24, 0x12	; 18
+  de:	8f 7e       	andi	r24, 0xEF	; 239
+  e0:	82 bb       	out	0x12, r24	; 18
+  e2:	cc cf       	rjmp	.-104    	; 0x7c <main+0x4>
+
+000000e4 <_exit>:
+  e4:	f8 94       	cli
+
+000000e6 <__stop_program>:
+  e6:	ff cf       	rjmp	.-2      	; 0xe6 <__stop_program>
