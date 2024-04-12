@@ -23,25 +23,21 @@ int Keypad_col[] = {C0, C1, C2, C3};
 void Keypad_init(){
 	// make rows as output
 	pinConfig.GPIO_pinNumber    = R0;
-//	pinConfig.GPIO_MODE         = GPIO_MODE_INPUT_FLO;
 	pinConfig.GPIO_MODE         = GPIO_MODE_OUTPUT_PP;
 	pinConfig.GPIO_Output_Speed = GPIO_MODE_10MHZ;
 	MCAL_GPIO_Init(Keypad_PORT, &pinConfig);
 
 	pinConfig.GPIO_pinNumber    = R1;
-//	pinConfig.GPIO_MODE         = GPIO_MODE_INPUT_FLO;
 	pinConfig.GPIO_MODE         = GPIO_MODE_OUTPUT_PP;
 	pinConfig.GPIO_Output_Speed = GPIO_MODE_10MHZ;
 	MCAL_GPIO_Init(Keypad_PORT, &pinConfig);
 
 	pinConfig.GPIO_pinNumber    = R2;
-//	pinConfig.GPIO_MODE         = GPIO_MODE_INPUT_FLO;
 	pinConfig.GPIO_MODE         = GPIO_MODE_OUTPUT_PP;
 	pinConfig.GPIO_Output_Speed = GPIO_MODE_10MHZ;
 	MCAL_GPIO_Init(Keypad_PORT, &pinConfig);
 
 	pinConfig.GPIO_pinNumber    = R3;
-//	pinConfig.GPIO_MODE         = GPIO_MODE_INPUT_FLO;
 	pinConfig.GPIO_MODE         = GPIO_MODE_OUTPUT_PP;
 	pinConfig.GPIO_Output_Speed = GPIO_MODE_10MHZ;
 	MCAL_GPIO_Init(Keypad_PORT, &pinConfig);
