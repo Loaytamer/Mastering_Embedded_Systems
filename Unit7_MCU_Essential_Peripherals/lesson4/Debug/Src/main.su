@@ -1,0 +1,4 @@
+main.c:19:6:wait	24	static
+main.c:28:6:clk_init	4	static
+main.c:35:6:EXTI_CallBack	8	static
+main.c:44:5:main	32	static
